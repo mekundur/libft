@@ -13,7 +13,7 @@
 NAME = libft.a
 HEADER = libft.h
 HEADERGNL = get_next_line.h
-SOURCES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
+SRC = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	  ft_tolower.c ft_toupper.c ft_atoi.c ft_atoi_hex.c ft_strncmp.c ft_memcmp.c \
 	  ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c ft_strrchr.c \
 	  ft_itoa.c ft_strdup.c ft_strnstr.c ft_substr.c ft_strjoin.c \
@@ -29,20 +29,22 @@ SOURCES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	  ft_printfutils.c ft_iswhitespace.c ft_isemptyline.c \
 	  ft_remove_trailing_newline.c ft_2dstrfree.c \
 
-OBJECTS = $(SOURCES:.c=.o)
+SRC := $(addprefix src/, $(SRC))
+
+OBJ = $(SRC:.c=.o)
 
 all : $(NAME) 
 
-%.o: %.c Makefile $(HEADER) $(HEADERGNL)
+%.o: %.c Makefile
 	@cc -c -g -Werror -Wall -Wextra $< -o $@
 
-$(NAME) : $(OBJECTS) $(HEADER) $(HEADERGNL)
+$(NAME) : $(OBJ) 
 	@echo "Creating the library <libft.a>"
-	@ar -rcs $@ $(OBJECTS)
+	@ar -rcs $@ $(OBJ)
 
 clean :
 	@echo "Cleaning up object files"
-	@rm -f $(OBJECTS)
+	@rm -f $(OBJ)
 
 fclean : clean 
 	@echo "Removing the library <libft.a>"
